@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,7 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Implementation of headless Fragment that runs an AsyncTask to fetch data from the network.
  */
 
-public class NetworkFragment extends Fragment{
+public class NetworkFragment extends Fragment {
     public static final String TAG = "NetworkFragment";
 
     private static final String URL_KEY = "UrlKey";
@@ -65,7 +68,7 @@ public class NetworkFragment extends Fragment{
     public void onAttach(Context context) {
         super.onAttach(context);
         // Host Activity will handle callbacks from task.
-        mCallback = (DownloadCallback)context;
+        mCallback = (DownloadCallback) context;
     }
 
     @Override
@@ -115,9 +118,11 @@ public class NetworkFragment extends Fragment{
         class Result {
             public String mResultValue;
             public Exception mException;
+
             public Result(String resultValue) {
                 mResultValue = resultValue;
             }
+
             public Result(Exception exception) {
                 mException = exception;
             }
@@ -150,13 +155,17 @@ public class NetworkFragment extends Fragment{
                 String urlString = urls[0];
                 try {
                     URL url = new URL(urlString);
+
+
                     String resultString = downloadUrl(url);
+
+
                     if (resultString != null) {
                         result = new Result(resultString);
                     } else {
                         throw new IOException("No response received.");
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     result = new Result(e);
                 }
             }
@@ -228,7 +237,14 @@ public class NetworkFragment extends Fragment{
                 publishProgress(DownloadCallback.Progress.GET_INPUT_STREAM_SUCCESS, 0);
                 if (stream != null) {
                     // Converts Stream to String with max length of 500.
-                    result = readStream(stream, 500);
+
+                    // result = readStream(stream, 500);
+
+                    int fileLength = connection.getContentLength();
+
+                    result = saveStream(stream, "video.mp4", fileLength);
+
+
                     publishProgress(DownloadCallback.Progress.PROCESS_INPUT_STREAM_SUCCESS, 0);
                 }
             } finally {
@@ -243,32 +259,41 @@ public class NetworkFragment extends Fragment{
             return result;
         }
 
-        /**
-         * Converts the contents of an InputStream to a String.
-         */
-        private String readStream(InputStream stream, int maxLength) throws IOException {
-            String result = null;
-            // Read InputStream using the UTF-8 charset.
-            InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
-            // Create temporary buffer to hold Stream data with specified max length.
-            char[] buffer = new char[maxLength];
-            // Populate temporary buffer with Stream data.
-            int numChars = 0;
-            int readSize = 0;
-            while (numChars < maxLength && readSize != -1) {
-                numChars += readSize;
-                int pct = (100 * numChars) / maxLength;
-                publishProgress(DownloadCallback.Progress.PROCESS_INPUT_STREAM_IN_PROGRESS, pct);
-                readSize = reader.read(buffer, numChars, buffer.length - numChars);
+        private String saveStream(InputStream stream, String fileName, int fileLength) {
+            try {
+                BufferedInputStream inStream = new BufferedInputStream(stream, 1024 * 5);
+
+                File file = new File(getContext().getDir("videos", Context.MODE_PRIVATE) + fileName);
+
+                if (file.exists()) {
+                    file.delete();
+                }
+                file.createNewFile();
+
+                FileOutputStream outStream = new FileOutputStream(file);
+                byte[] buff = new byte[5 * 1024];
+
+                int len;
+                int count = 0;
+                while ((len = inStream.read(buff)) != -1) {
+                    count += len;
+
+                    outStream.write(buff, 0, len);
+                    publishProgress(DownloadCallback.Progress.PROCESS_INPUT_STREAM_IN_PROGRESS, (100 * count) / fileLength);
+                }
+
+                outStream.flush();
+                outStream.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "KO";
             }
-            if (numChars != -1) {
-                // The stream was not empty.
-                // Create String that is actual length of response body if actual length was less than
-                // max length.
-                numChars = Math.min(numChars, maxLength);
-                result = new String(buffer, 0, numChars);
-            }
-            return result;
+
+            return "OK";
         }
+
+
     }
 }

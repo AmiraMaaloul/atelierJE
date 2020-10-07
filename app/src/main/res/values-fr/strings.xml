@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Atelier JE</string>
+    <string name="client">Client</string>
+    <string name="server">Serveur</string>
+    <string name="choose_mode">Choisissez votre mode</string>
+    <string name="server_mode">Mode Serveur</string>
+    <string name="client_mode">Mode Client</string>
+    <string name="download_video">Télécharger la vidéo</string>
+    <string name="start_server">Démarrer le serveur</string>
+    <string name="stop_server">Arrêter le serveur</string>
+    <string name="delete_video">Supprimer la vidéo</string>
+    <string name="connection_error">Erreur de connexion !</string>
+    <string name="server_stopped">Serveur arrêté.</string>
+    <string name="server_started">Serveur démarré.</string>
+</resources>
