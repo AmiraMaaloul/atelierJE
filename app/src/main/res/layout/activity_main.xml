@@ -20,12 +20,22 @@
          android:layout_height="wrap_content"
          android:orientation="horizontal">
 
+         <Button
+             android:id="@+id/btn_fast_rewind"
+             android:text="Fast rewind"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="left">
+
+         </Button>
+
 
          <Button
              android:id="@+id/btn_play"
              android:text="Play"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+             android:layout_gravity="center">
 
          </Button>
 
@@ -33,9 +43,10 @@
              android:id="@+id/btn_fast_forward"
              android:text="Fast Forward"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
-
+             android:layout_height="wrap_content"
+             android:layout_gravity="right">
          </Button>
+
 
      </LinearLayout>
 
