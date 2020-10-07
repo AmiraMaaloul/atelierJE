@@ -15,10 +15,29 @@
             android:layout_gravity="center">
         </SurfaceView>
 
-        <VideoView
-            android:id="@+id/video"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true" />
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+
+
+         <Button
+             android:id="@+id/btn_play"
+             android:text="Play"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+         </Button>
+
+         <Button
+             android:id="@+id/btn_fast_forward"
+             android:text="Fast Forward"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+         </Button>
+
+     </LinearLayout>
+
     </LinearLayout>
 
