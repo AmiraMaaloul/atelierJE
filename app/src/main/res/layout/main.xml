@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/frag_list"
+            class="com.example.amira.atelierje.DeviceListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <!-- Preview: layout=@layout/row_devices -->
+        </fragment>
+
+        <fragment
+            android:id="@+id/frag_video"
+            class="com.example.amira.atelierje.VideoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:layout="@layout/video_view">
+        </fragment>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:max="100"
+                android:progress="0" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -263,7 +263,7 @@ public class NetworkFragment extends Fragment {
             try {
                 BufferedInputStream inStream = new BufferedInputStream(stream, 1024 * 5);
 
-                File file = new File(getContext().getDir("videos", Context.MODE_PRIVATE) + fileName);
+                File file = new File(getContext().getDir("videos", Context.MODE_PRIVATE),  fileName);
 
                 if (file.exists()) {
                     file.delete();
@@ -288,10 +288,10 @@ public class NetworkFragment extends Fragment {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return "KO";
+                return "Could not download video";
             }
 
-            return "OK";
+            return "Video successfully downloaded";
         }
 
 
